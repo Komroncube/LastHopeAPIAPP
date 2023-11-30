@@ -1,0 +1,19 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Cars",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "lasthopeapi",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Cars",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8015"
+  }
+}

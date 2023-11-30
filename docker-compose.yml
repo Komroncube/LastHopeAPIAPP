@@ -1,0 +1,46 @@
+version: '3.4'
+networks:
+  backend:
+
+services:
+  sqldata:
+    container_name: sqldb
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+        - SA_PASSWORD=Komron#0708
+        - ACCEPT_EULA=Y
+    volumes:
+        - ./dbdata:/var/opt/mssql/data
+    ports:
+       - 1450:1433
+    networks:
+      - backend
+
+  lasthopeapi:
+    container_name: lasthope
+    image: ${DOCKER_REGISTRY-}lasthopeapi
+    build:
+      context: .
+      dockerfile: LastHopeAPI/Dockerfile
+    ports:
+      - 7080:80
+    environment:
+        - DB_HOST=sqldata
+        - DB_NAME=CarDb
+        - DB_SA_PASSWORD=Komron#0708
+    depends_on:
+        - sqldata
+    networks:
+      - backend
+    
+
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: WebApplication1/Dockerfile
+    ports:
+      - 7070:80
+    networks:
+      - backend
+
